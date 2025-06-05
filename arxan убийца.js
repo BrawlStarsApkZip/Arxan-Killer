@@ -12,7 +12,6 @@ const ArxanKiller = {
     },
     kill_lv1_debugger_antidebug_guard_proc_tracerpid() {
         Interceptor.replace(Module.findExportByName('libc.so', 'openat'), new NativeCallback(function(dirfd, pathname) {
-            console.log("don't even try to open " + pathname.readUtf8String());
             return -1;
         }, 'int', ['int', 'pointer']));
     },
@@ -27,7 +26,6 @@ const ArxanKiller = {
     },
     kill_lv1_stack_verify() {
         Interceptor.replace(Libg.AntiCheat.addr.guard_callback, new NativeCallback(function(a1) {
-            console.log("guard_callback(" + a1 + ") was called at " + this.returnAddress.sub(Libg.begin));
         }, 'void', ['int']));
 
         Armceptor.ret(Libg.AntiCheat.addr.update);
